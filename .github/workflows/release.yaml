@@ -45,8 +45,8 @@ jobs:
           echo "current=${current}" >> $GITHUB_OUTPUT
       - name: Package
         run: |
-          mkdir release
-          zip release/minimize-privacy-protection_${{ steps.git_tags.outputs.current }}.zip dist/*
+          cd dist
+          zip -r minimize-privacy-protection_${{ steps.git_tags.outputs.current }}.zip *
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
@@ -54,5 +54,5 @@ jobs:
           name: Release ${{ steps.git_tags.outputs.current }}
           prerelease: false
           draft: false
-          artifacts: "release/*.zip"
+          artifacts: "dist/*.zip"
           body: ${{ steps.changelog_text.outputs.changes }}
